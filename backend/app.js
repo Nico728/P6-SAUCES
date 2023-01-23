@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
+
+const app = express();
 
 // MONGOOSE CONNECT
 mongoose.connect('mongodb+srv://Piiquante:Piiquante@cluster0.4uwcpxs.mongodb.net/?retryWrites=true&w=majority',
@@ -12,7 +15,6 @@ mongoose.connect('mongodb+srv://Piiquante:Piiquante@cluster0.4uwcpxs.mongodb.net
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-const app = express();
 
 app.use(express.json());
 
@@ -28,5 +30,6 @@ app.use(bodyParser.json());
 
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 module.exports = app;
