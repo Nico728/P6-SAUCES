@@ -2,20 +2,27 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const helmet = require('helmet'); // aide à sécuriser les applications
+
+require('dotenv').config();
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
 const app = express();
 
+
 // MONGOOSE CONNECT
-mongoose.connect('mongodb+srv://Piiquante:Piiquante@cluster0.4uwcpxs.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
+const userDB = process.env.DB_USER;
+const passwordDB = process.env.DB_PASSWORD;
+const uri = `mongodb+srv://${userDB}:${passwordDB}@cluster0.4uwcpxs.mongodb.net/?retryWrites=true&w=majority`
+
+mongoose
+  .connect(uri)
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-
+app.use(helmet());
 app.use(express.json());
 
 // CORS

@@ -6,10 +6,11 @@ const auth = require('../middleware/auth');
 const saucesCtrl = require('../controllers/sauces');
 
 
-router.post('/', auth, multer, saucesCtrl.createSauce);
-router.put('/:id', auth, multer, saucesCtrl.modifySauce);
-router.delete('/:id', auth, saucesCtrl.deleteSauce);
-router.get('/:id', auth, saucesCtrl.getOneSauce);
-router.get('/', auth, saucesCtrl.getAllSauce);
+router.post('/', auth, multer, saucesCtrl.createSauce); // création sauce
+router.put('/:id', auth, multer, saucesCtrl.modifySauce); // modification sauce
+router.delete('/:id', auth, saucesCtrl.deleteSauce);  // suppression sauce
+router.get('/:id', auth, saucesCtrl.getOneSauce);  // une sauce
+router.get('/', auth, saucesCtrl.getAllSauce);  // les sauces
+router.post('/:id/like', saucesCtrl.likeDislike); //like ou dislike des sauces
 
 module.exports = router;
