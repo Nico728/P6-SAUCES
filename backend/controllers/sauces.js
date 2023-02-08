@@ -73,6 +73,34 @@ exports.getAllSauce = (req, res, next) => {
 };
 
 // middleware des likes et dislikes
-exports.likeDislike = (req, res, next) => {
-  //
+exports.likeDislike = (req, res, next) => {    
+  const like = req.body.like;
+
+  if(like === 1) { // + 1 Like
+      Sauce.updateOne({_id: req.params.id}, { $inc: { likes: 1}, $push: { usersLiked: req.body.userId}, _id: req.params.id })
+      .then( () => res.status(200).json({ message: 'Sauce appréciée' }))
+      .catch( error => res.status(400).json({ error}));
+
+  } else if(like === -1) { // + 1 Dislike
+      Sauce.updateOne({_id: req.params.id}, { $inc: { dislikes: 1}, $push: { usersDisliked: req.body.userId}, _id: req.params.id })
+      .then( () => res.status(200).json({ message: 'Sauce non appréciée' }))
+      .catch( error => res.status(400).json({ error}));
+
+  } else {    // Annulation Like ou Dislike
+      Sauce.findOne( {_id: req.params.id})
+      .then( sauce => {
+          if( sauce.usersLiked.indexOf(req.body.userId)!== -1){ // Annulation Like
+               Sauce.updateOne({_id: req.params.id}, { $inc: { likes: -1},$pull: { usersLiked: req.body.userId}, _id: req.params.id })
+              .then( () => res.status(200).json({ message: 'Sauce plus appréciée' }))
+              .catch( error => res.status(400).json({ error}));
+              }
+              
+          else if( sauce.usersDisliked.indexOf(req.body.userId)!== -1) { // Annulation Dislike
+              Sauce.updateOne( {_id: req.params.id}, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId}, _id: req.params.id})
+              .then( () => res.status(200).json({ message: 'Sauce neutre' }))
+              .catch( error => res.status(400).json({ error}));
+              }           
+      })
+      .catch( error => res.status(400).json({ error}));             
+  }   
 };
