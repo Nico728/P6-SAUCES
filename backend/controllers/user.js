@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');  // Importation pour hacher le mot de passe
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 require('dotenv').config();
