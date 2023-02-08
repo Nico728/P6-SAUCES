@@ -12,5 +12,5 @@ BACKEND :
 1. Ouvrir le terminal sur le dossier backend
 2. Lancez dans le terminal la commande " npm install "
 3. Ensuite, saisissez la commande " nodemon server "
-4. dire de créer fichier .env
+
 
