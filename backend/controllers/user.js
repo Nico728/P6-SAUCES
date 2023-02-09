@@ -13,9 +13,11 @@ exports.signup = (req, res, next) => {
             });
             user.save() // sauvegarde dans la base de données
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-                .catch(error => res.status(500).json({ error }));
+                .catch(error => res.status(500).json({ error })
+            );
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error })
+    );
 };
 
 // Connexion
@@ -42,8 +44,10 @@ exports.login = (req, res, next) => {
                             });
                         }
                     })
-                    .catch(error => res.status(500).json({ error }));
+                    .catch(error => res.status(500).json({ error })
+                );
             }
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error })
+    );
 };
