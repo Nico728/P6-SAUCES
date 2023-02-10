@@ -71,7 +71,7 @@ exports.deleteSauce =  (req, res, next) => {
 
 // middleware d'une sauce
 exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
+  Sauce.findOne({ _id: req.params.id }) // findOne pour avoir les détails de la sauce en question
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }) // erreur 404 : indisponnible
   ); 
@@ -79,7 +79,7 @@ exports.getOneSauce = (req, res, next) => {
 
 // middleware des sauces
 exports.getAllSauce = (req, res, next) => {
-  Sauce.find()
+  Sauce.find() // find pour avoir la liste complète des sauces
     .then(sauces => res.status(200).json(sauces))
     .catch(error => res.status(400).json({ error })
   ); 
@@ -90,12 +90,12 @@ exports.likeDislike = (req, res, next) => {
   const like = req.body.like;
   switch (like) {
     case 1 :
-      Sauce.updateOne({_id: req.params.id}, { $inc: { likes: 1}, $push: { usersLiked: req.body.userId}, _id: req.params.id })
+      Sauce.updateOne({_id: req.params.id}, { $inc: { likes: 1}, $push: { usersLiked: req.body.userId}, _id: req.params.id }) // On incrémente et on ajoute la nouvelle valeur
       .then(() => res.status(200).json({ message: 'Sauce appréciée' }))
       .catch((error) => res.status(400).json({ error}));
     break;
     case -1 :
-      Sauce.updateOne({_id: req.params.id}, { $inc: { dislikes: 1}, $push: { usersDisliked: req.body.userId}, _id: req.params.id })
+      Sauce.updateOne({_id: req.params.id}, { $inc: { dislikes: 1}, $push: { usersDisliked: req.body.userId}, _id: req.params.id }) // On incrémente et on ajoute la nouvelle valeur
       .then(() => res.status(200).json({ message: 'Sauce non appréciée' }))
       .catch((error) => res.status(400).json({ error}));
     break;
@@ -103,13 +103,13 @@ exports.likeDislike = (req, res, next) => {
       Sauce.findOne( {_id: req.params.id})
     .then( sauce => {
       if( sauce.usersLiked.indexOf(req.body.userId)!== -1){ // Annulation Like
-        Sauce.updateOne({_id: req.params.id}, { $inc: { likes: -1},$pull: { usersLiked: req.body.userId}, _id: req.params.id })
+        Sauce.updateOne({_id: req.params.id}, { $inc: { likes: -1},$pull: { usersLiked: req.body.userId}, _id: req.params.id }) // On incrémente et on retire la nouvelle valeur
           .then(() => res.status(200).json({ message: 'Sauce plus appréciée' }))
           .catch((error) => res.status(400).json({ error}));
       }
           
       else if( sauce.usersDisliked.indexOf(req.body.userId)!== -1) { // Annulation Dislike
-        Sauce.updateOne( {_id: req.params.id}, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId}, _id: req.params.id})
+        Sauce.updateOne( {_id: req.params.id}, { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId}, _id: req.params.id}) // On incrémente et on retire la nouvelle valeur
           .then(() => res.status(200).json({ message: 'Sauce neutre' }))
           .catch((error) => res.status(400).json({ error}));
       }           
