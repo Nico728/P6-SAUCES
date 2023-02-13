@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');  // Importation pour hacher le mot de passe
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // Imporation pour chiffrés les tokens et les utiliser pour se connecter
 const User = require('../models/user');
 require('dotenv').config();
 
@@ -36,9 +36,9 @@ exports.login = (req, res, next) => {
                         else {
                             res.status(201).json({
                                 userId: user._id,
-                                token: jwt.sign(
-                                    { userId: user._id },
-                                    process.env.TOKEN_P6, // key du token
+                                token: jwt.sign( // permet de chiffrer un nouveau token
+                                    { userId: user._id }, // le token contien l'ID de l'utilisateur 
+                                    process.env.TOKEN_P6, // key du token dans fichier .env
                                     { expiresIn: '24h' } // temps de validité du token
                                 )
                             });

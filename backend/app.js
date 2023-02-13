@@ -13,9 +13,9 @@ const app = express();
 
 
 // MONGOOSE CONNECT
-const userDB = process.env.DB_USER;
-const passwordDB = process.env.DB_PASSWORD;
-const uri = `mongodb+srv://${userDB}:${passwordDB}@cluster0.4uwcpxs.mongodb.net/?retryWrites=true&w=majority`
+const userDB = process.env.DB_USER; // appel de l'identifiant grâce au fichier .env
+const passwordDB = process.env.DB_PASSWORD; // appel du mot de passe grâce au fichier .env
+const uri = `mongodb+srv://${userDB}:${passwordDB}@cluster0.4uwcpxs.mongodb.net/?retryWrites=true&w=majority` // lien de la base de données MongoDB
 
 mongoose
   .connect(uri)

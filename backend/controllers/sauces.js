@@ -4,12 +4,12 @@ const fs = require('fs');
 // middleware création d'une sauce
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
-  delete sauceObject._id;
-  delete sauceObject._userId;
+  delete sauceObject._id; // il sera créé automatiquement dans la Base de Donnée
+  delete sauceObject._userId; // il sera extrait par le token d'authentification en base de donnée
   const sauce = new Sauce({
     ...sauceObject,
     _userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // req.protocol pour obtenir le premier segment soit 'http', puis le second segment 'host' pour 'localhost:3000' et le dossier images ainsi que le nom du fichier avec filename
     likes: 0,
     dislikes: 0
   });
