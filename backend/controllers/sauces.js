@@ -97,7 +97,7 @@ exports.likeDislike = (req, res, next) => {
     case 1 :
       Sauce.findOne( {_id: req.params.id})
       .then( sauce => {
-        if(sauce.usersLiked.includes(req.body.userId) && sauce.userDisliked.includes(req.body.userId) && req.body.like === 1) { // permet de liker une seule fois et permet de voir si l'userId en question a deja liker
+        if((sauce.usersLiked.includes(req.body.userId) || sauce.usersDisliked.includes(req.body.userId)) && req.body.like === 1) { // permet de liker une seule fois et permet de voir si l'userId en question a deja liker
           console.log('marche pas')
           res.status(401).json({ error : 'Sauce déjà liké !' });
         }
@@ -111,7 +111,7 @@ exports.likeDislike = (req, res, next) => {
     case -1 :
       Sauce.findOne( {_id: req.params.id})
       .then( sauce => {
-        if(sauce.usersLiked.includes(req.body.userId) && sauce.userDisliked.includes(req.body.userId) && req.body.like === -1) { // permet de disliker une seule fois et permet de voir si l'userId en question a deja disliker
+        if((sauce.usersLiked.includes(req.body.userId) || sauce.usersDisliked.includes(req.body.userId)) && req.body.like === -1) { // permet de disliker une seule fois et permet de voir si l'userId en question a deja disliker
           res.status(401).json({ error : 'Sauce déjà disliké !' });
         }
         else {
